@@ -1,0 +1,232 @@
+import face_recognition
+import cv2
+import numpy as np
+import glob
+
+# This is a demo of running face recognition on live video from your webcam. It's a little more complicated than the
+# other example, but it includes some basic performance tweaks to make things run a lot faster:
+#   1. Process each video frame at 1/4 resolution (though still display it at full resolution)
+#   2. Only detect faces in every other frame of video.
+
+# PLEASE NOTE: This example requires OpenCV (the `cv2` library) to be installed only to read from your webcam.
+# OpenCV is *not* required to use the face_recognition library. It's only required if you want to run this
+# specific demo. If you have trouble installing it, try any of the other demos that don't require it instead.
+
+
+
+# Open Camera
+video_capture = cv2.VideoCapture(0)
+
+attemptOpenCam = 0
+while(not video_capture.isOpened()):
+   attemptOpenCam += 1
+   if(attemptOpenCam == 1):
+      print('Camera not detected yet, please be patient...')
+   video_capture.release()
+   cv2.destroyAllWindows()
+   video_capture = cv2.VideoCapture(0)
+print('Camera is on!')
+
+
+
+## Create Library
+# image = cv2.imread("tianxiang/tianxiang.jpeg")
+# face_locations = face_recognition.face_locations(image)
+# tianxiang_face_encoding = face_recognition.face_encodings(image, face_locations)[0]
+# print tianxiang_face_encoding.shape
+
+tianxiang_face_encoding = []
+for filename in glob.glob('tianxiang/*'):
+   # print(filename)
+   image = cv2.imread(filename)
+   face_locations = face_recognition.face_locations(image)
+   tianxiang_face_encoding.append(face_recognition.face_encodings(image, face_locations)[0])
+# print tianxiang_face_encoding[0].shape
+# print tianxiang_face_encoding[1].shape
+# print tianxiang_face_encoding[2].shape
+
+
+# image = cv2.imread("ying/ying.jpg")
+# face_locations = face_recognition.face_locations(image)
+# ying_face_encoding = face_recognition.face_encodings(image, face_locations)[0]
+
+ying_face_encoding = []
+for filename in glob.glob('ying/*'):
+   image = cv2.imread(filename)
+   face_locations = face_recognition.face_locations(image)
+   ying_face_encoding.append(face_recognition.face_encodings(image, face_locations)[0])
+
+# image = cv2.imread("meng/meng.jpg")
+# face_locations = face_recognition.face_locations(image)
+# meng_face_encoding = face_recognition.face_encodings(image, face_locations)[0]
+
+meng_face_encoding = []
+for filename in glob.glob('meng/*'):
+   image = cv2.imread(filename)
+   face_locations = face_recognition.face_locations(image)
+   meng_face_encoding.append(face_recognition.face_encodings(image, face_locations)[0])
+
+
+# image = cv2.imread("xianjun/xianjun.jpg")
+# face_locations = face_recognition.face_locations(image)
+# xianjun_face_encoding = face_recognition.face_encodings(image, face_locations)[0]
+
+xianjun_face_encoding = []
+for filename in glob.glob('xianjun/*'):
+   image = cv2.imread(filename)
+   face_locations = face_recognition.face_locations(image)
+   xianjun_face_encoding.append(face_recognition.face_encodings(image, face_locations)[0])
+
+
+# image = cv2.imread("muhannad/muhannad.jpg")
+# face_locations = face_recognition.face_locations(image)
+# muhannad_face_encoding = face_recognition.face_encodings(image, face_locations)[0]
+
+muhannad_face_encoding = []
+for filename in glob.glob('muhannad/*'):
+   image = cv2.imread(filename)
+   face_locations = face_recognition.face_locations(image)
+   muhannad_face_encoding.append(face_recognition.face_encodings(image, face_locations)[0])
+
+# image = cv2.imread("jeremy/jeremy2.jpg")
+# face_locations = face_recognition.face_locations(image)
+# jeremy_face_encoding = face_recognition.face_encodings(image, face_locations)[0]
+
+jeremy_face_encoding = []
+for filename in glob.glob('jeremy/*'):
+   image = cv2.imread(filename)
+   face_locations = face_recognition.face_locations(image)
+   jeremy_face_encoding.append(face_recognition.face_encodings(image, face_locations)[0])
+
+# image = cv2.imread("miranda/miranda.jpg")
+# face_locations = face_recognition.face_locations(image)
+# miranda_face_encoding = face_recognition.face_encodings(image, face_locations)[0]
+
+miranda_face_encoding = []
+for filename in glob.glob('miranda/*'):
+   image = cv2.imread(filename)
+   face_locations = face_recognition.face_locations(image)
+   miranda_face_encoding.append(face_recognition.face_encodings(image, face_locations)[0])
+
+sepand_face_encoding = []
+for filename in glob.glob('sepand/*'):
+   image = cv2.imread(filename)
+   face_locations = face_recognition.face_locations(image)
+   sepand_face_encoding.append(face_recognition.face_encodings(image, face_locations)[0])
+
+anastasia_face_encoding = []
+for filename in glob.glob('anastasia/*'):
+   image = cv2.imread(filename)
+   face_locations = face_recognition.face_locations(image)
+   anastasia_face_encoding.append(face_recognition.face_encodings(image, face_locations)[0])
+
+
+# Create arrays of known face encodings and their names
+known_face_encodings = [
+    tianxiang_face_encoding,
+    ying_face_encoding,
+    meng_face_encoding,
+    xianjun_face_encoding,
+    muhannad_face_encoding,
+    jeremy_face_encoding,
+    miranda_face_encoding,
+    sepand_face_encoding,
+    anastasia_face_encoding
+]
+#print len(known_face_encodings)
+#print len(tianxiang_face_encoding)
+
+known_face_names = [
+    "Tianxiang",
+    "Ying",
+    "Meng",
+    "Xianjun",
+    "Muhannad",
+    "Jeremy",
+    "Miranda",
+    "Sepand",
+    "Anastasia"
+]
+
+
+
+# Initialize some variables
+face_locations = []
+face_encodings = []
+face_names = []
+
+#process_this_frame = True
+numInGroup = 10
+frameID = -1
+
+while True:
+    frameID += 1
+
+    # Grab a single frame of video
+    ret, frame = video_capture.read()
+
+    # Resize frame of video to 1/4 size for faster face recognition processing
+#    small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
+    small_frame = frame
+
+    # Convert the image from BGR color (which OpenCV uses) to RGB color (which face_recognition uses)
+    rgb_small_frame = small_frame[:, :, ::-1]
+
+
+    # Only process every other frame of video to save time
+#    if process_this_frame:
+    if(frameID % numInGroup == 0):
+        # Find all the faces and face encodings in the current frame of video
+        face_locations = face_recognition.face_locations(rgb_small_frame)
+        face_encodings = face_recognition.face_encodings(rgb_small_frame, face_locations)
+    
+        # See how far apart the test image is from the known faces
+        face_names = []
+        for face_encoding in face_encodings:
+            face_distances = []
+            name = "Unkown"
+            for known_face_encoding in known_face_encodings:
+                face_distance = face_recognition.face_distance(known_face_encoding, face_encoding)
+                face_distances.append( reduce(lambda x, y: x+y, face_distance) / len(face_distance) )
+            index = np.argmin(face_distances)
+            dist = face_distances[index]
+            
+            if(dist<0.6):
+               # print(index)
+               name = known_face_names[index]
+            
+            # print(face_distances)
+            # print(name, face_distances[index])
+            face_names.append(name)
+            
+
+#    process_this_frame = not process_this_frame
+
+
+
+    # Display the results
+    for (top, right, bottom, left), name in zip(face_locations, face_names):
+        # Scale back up face locations since the frame we detected in was scaled to 1/4 size
+#        top *= 4
+#        right *= 4
+#        bottom *= 4
+#        left *= 4
+
+        # Draw a box around the face
+        cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 2)
+
+        # Draw a label with a name below the face
+        cv2.rectangle(frame, (left, bottom - 35), (right, bottom), (0, 0, 255), cv2.FILLED)
+        font = cv2.FONT_HERSHEY_DUPLEX
+        cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
+
+    # Display the resulting image
+    cv2.imshow('Video', frame)
+
+    # Hit 'q' on the keyboard to quit!
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+# Release handle to the webcam
+video_capture.release()
+cv2.destroyAllWindows()
