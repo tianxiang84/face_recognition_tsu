@@ -50,32 +50,32 @@ for filename in glob.glob('tianxiang/*'):
 # face_locations = face_recognition.face_locations(image)
 # ying_face_encoding = face_recognition.face_encodings(image, face_locations)[0]
 
-ying_face_encoding = []
-for filename in glob.glob('ying/*'):
-   image = cv2.imread(filename)
-   face_locations = face_recognition.face_locations(image)
-   ying_face_encoding.append(face_recognition.face_encodings(image, face_locations)[0])
+#ying_face_encoding = []
+#for filename in glob.glob('ying/*'):
+#   image = cv2.imread(filename)
+#   face_locations = face_recognition.face_locations(image)
+#   ying_face_encoding.append(face_recognition.face_encodings(image, face_locations)[0])
 
 # image = cv2.imread("meng/meng.jpg")
 # face_locations = face_recognition.face_locations(image)
 # meng_face_encoding = face_recognition.face_encodings(image, face_locations)[0]
 
-meng_face_encoding = []
-for filename in glob.glob('meng/*'):
-   image = cv2.imread(filename)
-   face_locations = face_recognition.face_locations(image)
-   meng_face_encoding.append(face_recognition.face_encodings(image, face_locations)[0])
+#meng_face_encoding = []
+#for filename in glob.glob('meng/*'):
+#   image = cv2.imread(filename)
+#   face_locations = face_recognition.face_locations(image)
+#   meng_face_encoding.append(face_recognition.face_encodings(image, face_locations)[0])
 
 
 # image = cv2.imread("xianjun/xianjun.jpg")
 # face_locations = face_recognition.face_locations(image)
 # xianjun_face_encoding = face_recognition.face_encodings(image, face_locations)[0]
 
-xianjun_face_encoding = []
-for filename in glob.glob('xianjun/*'):
-   image = cv2.imread(filename)
-   face_locations = face_recognition.face_locations(image)
-   xianjun_face_encoding.append(face_recognition.face_encodings(image, face_locations)[0])
+#xianjun_face_encoding = []
+#for filename in glob.glob('xianjun/*'):
+#   image = cv2.imread(filename)
+#   face_locations = face_recognition.face_locations(image)
+#   xianjun_face_encoding.append(face_recognition.face_encodings(image, face_locations)[0])
 
 
 # image = cv2.imread("muhannad/muhannad.jpg")
@@ -102,11 +102,11 @@ for filename in glob.glob('jeremy/*'):
 # face_locations = face_recognition.face_locations(image)
 # miranda_face_encoding = face_recognition.face_encodings(image, face_locations)[0]
 
-miranda_face_encoding = []
-for filename in glob.glob('miranda/*'):
-   image = cv2.imread(filename)
-   face_locations = face_recognition.face_locations(image)
-   miranda_face_encoding.append(face_recognition.face_encodings(image, face_locations)[0])
+#miranda_face_encoding = []
+#for filename in glob.glob('miranda/*'):
+#   image = cv2.imread(filename)
+#   face_locations = face_recognition.face_locations(image)
+#   miranda_face_encoding.append(face_recognition.face_encodings(image, face_locations)[0])
 
 sepand_face_encoding = []
 for filename in glob.glob('sepand/*'):
@@ -120,34 +120,73 @@ for filename in glob.glob('anastasia/*'):
    face_locations = face_recognition.face_locations(image)
    anastasia_face_encoding.append(face_recognition.face_encodings(image, face_locations)[0])
 
+jan_face_encoding = []
+for filename in glob.glob('jan/*'):
+   image = cv2.imread(filename)
+   face_locations = face_recognition.face_locations(image)
+   jan_face_encoding.append(face_recognition.face_encodings(image, face_locations)[0])
+
+demos_face_encoding = []
+for filename in glob.glob('demos/*'):
+   image = cv2.imread(filename)
+   face_locations = face_recognition.face_locations(image)
+   demos_face_encoding.append(face_recognition.face_encodings(image, face_locations)[0])
+
+#alejandro_face_encoding = []
+#for filename in glob.glob('alejandro/*'):
+#   image = cv2.imread(filename)
+#   face_locations = face_recognition.face_locations(image)
+#   alejandro_face_encoding.append(face_recognition.face_encodings(image, face_locations)[0])
+
+#nicolas_face_encoding = []
+#for filename in glob.glob('nicolas/*'):
+#   image = cv2.imread(filename)
+#   face_locations = face_recognition.face_locations(image)
+#   nicolas_face_encoding.append(face_recognition.face_encodings(image, face_locations)[0])
+
+#walid_face_encoding = []
+#for filename in glob.glob('walid/*'):
+#   image = cv2.imread(filename)
+#   face_locations = face_recognition.face_locations(image)
+#   walid_face_encoding.append(face_recognition.face_encodings(image, face_locations)[0])
+
 
 # Create arrays of known face encodings and their names
 known_face_encodings = [
     tianxiang_face_encoding,
-    ying_face_encoding,
-    meng_face_encoding,
-    xianjun_face_encoding,
+    #ying_face_encoding,
+    #meng_face_encoding,
+    #xianjun_face_encoding,
     muhannad_face_encoding,
     jeremy_face_encoding,
-    miranda_face_encoding,
+    #miranda_face_encoding,
     sepand_face_encoding,
-    anastasia_face_encoding
+    anastasia_face_encoding,
+    #alejandro_face_encoding,
+    #nicolas_face_encoding,
+    #walid_face_encoding,
+    jan_face_encoding,
+    demos_face_encoding
 ]
 #print len(known_face_encodings)
 #print len(tianxiang_face_encoding)
 
 known_face_names = [
     "Tianxiang",
-    "Ying",
-    "Meng",
-    "Xianjun",
+    #"Ying",
+    #"Meng",
+    #"Xianjun",
     "Muhannad",
     "Jeremy",
-    "Miranda",
+    #"Miranda",
     "Sepand",
-    "Anastasia"
+    "Anastasia",
+    #"Alejandro",
+    #"Nicolas",
+    #"Walid",
+    "Jan",
+    "Demos"
 ]
-
 
 
 # Initialize some variables
