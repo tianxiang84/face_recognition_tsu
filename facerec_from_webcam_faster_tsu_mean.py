@@ -132,6 +132,13 @@ for filename in glob.glob('demos/*'):
    face_locations = face_recognition.face_locations(image)
    demos_face_encoding.append(face_recognition.face_encodings(image, face_locations)[0])
 
+cecilia_face_encoding = []
+for filename in glob.glob('cecilia/*'):
+   image = cv2.imread(filename)
+   face_locations = face_recognition.face_locations(image)
+   cecilia_face_encoding.append(face_recognition.face_encodings(image, face_locations)[0])
+
+
 #alejandro_face_encoding = []
 #for filename in glob.glob('alejandro/*'):
 #   image = cv2.imread(filename)
@@ -166,7 +173,8 @@ known_face_encodings = [
     #nicolas_face_encoding,
     #walid_face_encoding,
     jan_face_encoding,
-    demos_face_encoding
+    demos_face_encoding,
+    cecilia_face_encoding
 ]
 #print len(known_face_encodings)
 #print len(tianxiang_face_encoding)
@@ -185,7 +193,8 @@ known_face_names = [
     #"Nicolas",
     #"Walid",
     "Jan",
-    "Demos"
+    "Demos",
+    "Cecilia"
 ]
 
 
