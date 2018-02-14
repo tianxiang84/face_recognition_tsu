@@ -144,6 +144,12 @@ for filename in glob.glob('chris/*'):
    face_locations = face_recognition.face_locations(image)
    chris_face_encoding.append(face_recognition.face_encodings(image, face_locations)[0])
 
+gavin_face_encoding = []
+for filename in glob.glob('gavin/*'):
+   image = cv2.imread(filename)
+   face_locations = face_recognition.face_locations(image)
+   gavin_face_encoding.append(face_recognition.face_encodings(image, face_locations)[0])
+
 
 #alejandro_face_encoding = []
 #for filename in glob.glob('alejandro/*'):
@@ -181,7 +187,8 @@ known_face_encodings = [
     jan_face_encoding,
     demos_face_encoding,
     cecilia_face_encoding,
-    chris_face_encoding
+    chris_face_encoding,
+    gavin_face_encoding
 ]
 #print len(known_face_encodings)
 #print len(tianxiang_face_encoding)
@@ -202,7 +209,8 @@ known_face_names = [
     "Jan",
     "Demos",
     "Cecilia",
-    "Chris"
+    "Chris",
+    "Gavin"
 ]
 
 
@@ -276,7 +284,7 @@ while True:
         # Draw a label with a name below the face
         cv2.rectangle(frame, (left, bottom - 35), (right, bottom), (0, 0, 255), cv2.FILLED)
         font = cv2.FONT_HERSHEY_DUPLEX
-        cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
+        cv2.putText(frame, name, (left + 6, bottom - 6), font, 0.7, (255, 255, 255), 1)
 
     # Display the resulting image
     #cv2.imshow('Video', frame)
