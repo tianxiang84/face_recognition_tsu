@@ -138,6 +138,12 @@ for filename in glob.glob('cecilia/*'):
    face_locations = face_recognition.face_locations(image)
    cecilia_face_encoding.append(face_recognition.face_encodings(image, face_locations)[0])
 
+chris_face_encoding = []
+for filename in glob.glob('chris/*'):
+   image = cv2.imread(filename)
+   face_locations = face_recognition.face_locations(image)
+   chris_face_encoding.append(face_recognition.face_encodings(image, face_locations)[0])
+
 
 #alejandro_face_encoding = []
 #for filename in glob.glob('alejandro/*'):
@@ -174,7 +180,8 @@ known_face_encodings = [
     #walid_face_encoding,
     jan_face_encoding,
     demos_face_encoding,
-    cecilia_face_encoding
+    cecilia_face_encoding,
+    chris_face_encoding
 ]
 #print len(known_face_encodings)
 #print len(tianxiang_face_encoding)
@@ -194,7 +201,8 @@ known_face_names = [
     #"Walid",
     "Jan",
     "Demos",
-    "Cecilia"
+    "Cecilia",
+    "Chris"
 ]
 
 
@@ -206,7 +214,9 @@ face_names = []
 #process_this_frame = True
 numInGroup = 10
 frameID = -1
-
+cv2.namedWindow('Video', cv2.WINDOW_NORMAL)
+cv2.resizeWindow('Video',640,480)
+    
 while True:
     frameID += 1
 
@@ -269,7 +279,9 @@ while True:
         cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
 
     # Display the resulting image
-    cv2.imshow('Video', frame)
+    #cv2.imshow('Video', frame)
+    
+    cv2.imshow('Video',frame)
 
     # Hit 'q' on the keyboard to quit!
     if cv2.waitKey(1) & 0xFF == ord('q'):
