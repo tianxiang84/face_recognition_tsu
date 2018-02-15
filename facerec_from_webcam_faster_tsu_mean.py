@@ -15,7 +15,8 @@ import glob
 
 
 # Open Camera
-video_capture = cv2.VideoCapture(0)
+# video_capture = cv2.VideoCapture(0)
+video_capture = cv2.VideoCapture('http://10.0.0.173:4747/mjpegfeed')
 
 attemptOpenCam = 0
 while(not video_capture.isOpened()):
