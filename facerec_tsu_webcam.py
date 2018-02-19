@@ -15,7 +15,7 @@ import glob
 
 
 # Open Camera
-PORT = 0
+PORT = 1
 # PORT = 'http://100.106.104.82:4747/mjpegfeed'
 # video_capture = cv2.VideoCapture(0)
 # video_capture = cv2.VideoCapture('http://10.0.0.173:4747/mjpegfeed')
@@ -251,15 +251,14 @@ while True:
     ret, frame = video_capture.read()
 
     # Resize frame of video to 1/4 size for faster face recognition processing
-#    small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
-#    small_frame = frame
+    # small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
+    # small_frame = frame
 
     # Convert the image from BGR color (which OpenCV uses) to RGB color (which face_recognition uses)
-#    rgb_small_frame = small_frame[:, :, ::-1]
+    # rgb_small_frame = small_frame[:, :, ::-1]
     rgb_small_frame = frame[:, :, ::-1]
 
     # Only process every other frame of video to save time
-#    if process_this_frame:
     if(frameID % numInGroup == 0):
         # Find all the faces and face encodings in the current frame of video
         face_locations = face_recognition.face_locations(rgb_small_frame)
@@ -277,18 +276,38 @@ while True:
             dist = face_distances[index]
             
             if(dist<0.5):
-               # print(index)
                name = known_face_names[index]
             elif(dist<0.6):
-               # print(index)
                name = known_face_names[index] + "?"
             
-            # print(face_distances)
-            # print(name, face_distances[index])
             face_names.append(name)
             
 
+
+        # Find all facial features in all the faces in the image
+        face_landmarks_list = face_recognition.face_landmarks(rgb_small_frame)
+    
+    
+    
     # Display the results
+    for face_landmarks in face_landmarks_list:
+        # Print the location of each facial feature in this image
+        facial_features = [
+              'chin',
+              'left_eyebrow',
+              'right_eyebrow',
+              'nose_bridge',
+              'nose_tip',
+              'left_eye',
+              'right_eye',
+              'top_lip',
+              'bottom_lip'
+         ]
+
+        for facial_feature in facial_features:
+            for pts in face_landmarks[facial_feature]:
+                cv2.circle(frame, pts, 2, (0,255,0), 1)
+
     for (top, right, bottom, left), name in zip(face_locations, face_names):
         # Draw a box around the face
 #        cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 2)
@@ -302,6 +321,8 @@ while True:
         cv2.rectangle(frame, (left-35, bottom - 105), (right+35, bottom-70), (0, 0, 255), cv2.FILLED)
  
         cv2.putText(frame, name, (left - 29, bottom - 76), font, 0.6, (0, 0, 0), 1)
+
+
 
     # Display the resulting image
     cv2.imshow('Video',frame)
