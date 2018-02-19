@@ -15,7 +15,7 @@ import glob
 
 
 # Open Camera
-PORT = 1 
+PORT = 0 
 # PORT = 'http://100.106.104.82:4747/mjpegfeed'
 # video_capture = cv2.VideoCapture(0)
 # video_capture = cv2.VideoCapture('http://10.0.0.173:4747/mjpegfeed')
@@ -136,11 +136,11 @@ for filename in glob.glob('sepand/*'):
 #   face_locations = face_recognition.face_locations(image)
 #   cecilia_face_encoding.append(face_recognition.face_encodings(image, face_locations)[0])
 
-# chris_face_encoding = []
-# for filename in glob.glob('chris/*'):
-#    image = cv2.imread(filename)
-#    face_locations = face_recognition.face_locations(image)
-#    chris_face_encoding.append(face_recognition.face_encodings(image, face_locations)[0])
+chris_face_encoding = []
+for filename in glob.glob('chris/*'):
+    image = cv2.imread(filename)
+    face_locations = face_recognition.face_locations(image)
+    chris_face_encoding.append(face_recognition.face_encodings(image, face_locations)[0])
 
 gavin_face_encoding = []
 for filename in glob.glob('gavin/*'):
@@ -148,23 +148,23 @@ for filename in glob.glob('gavin/*'):
    face_locations = face_recognition.face_locations(image)
    gavin_face_encoding.append(face_recognition.face_encodings(image, face_locations)[0])
 
-matt_face_encoding = []
-for filename in glob.glob('matt/*'):
-   image = cv2.imread(filename)
-   face_locations = face_recognition.face_locations(image)
-   matt_face_encoding.append(face_recognition.face_encodings(image, face_locations)[0])
+#matt_face_encoding = []
+#for filename in glob.glob('matt/*'):
+#   image = cv2.imread(filename)
+#   face_locations = face_recognition.face_locations(image)
+#   matt_face_encoding.append(face_recognition.face_encodings(image, face_locations)[0])
 
-rich_face_encoding = []
-for filename in glob.glob('rich/*'):
-   image = cv2.imread(filename)
-   face_locations = face_recognition.face_locations(image)
-   rich_face_encoding.append(face_recognition.face_encodings(image, face_locations)[0])
+#rich_face_encoding = []
+#for filename in glob.glob('rich/*'):
+#   image = cv2.imread(filename)
+#   face_locations = face_recognition.face_locations(image)
+#   rich_face_encoding.append(face_recognition.face_encodings(image, face_locations)[0])
 
-rod_face_encoding = []
-for filename in glob.glob('rod/*'):
-   image = cv2.imread(filename)
-   face_locations = face_recognition.face_locations(image)
-   rod_face_encoding.append(face_recognition.face_encodings(image, face_locations)[0])
+#rod_face_encoding = []
+#for filename in glob.glob('rod/*'):
+#   image = cv2.imread(filename)
+#   face_locations = face_recognition.face_locations(image)
+#   rod_face_encoding.append(face_recognition.face_encodings(image, face_locations)[0])
 
 #alejandro_face_encoding = []
 #for filename in glob.glob('alejandro/*'):
@@ -202,11 +202,11 @@ known_face_encodings = [
     #jan_face_encoding,
     #demos_face_encoding,
     #cecilia_face_encoding,
-    #chris_face_encoding,
+    chris_face_encoding,
     gavin_face_encoding,
-    matt_face_encoding,
-    rich_face_encoding,
-    rod_face_encoding
+    #matt_face_encoding,
+    #rich_face_encoding,
+    #rod_face_encoding
 ]
 
 known_face_names = [
@@ -225,11 +225,11 @@ known_face_names = [
     #"Jan",
     #"Demos",
     #"Cecilia",
-    #"Chris",
+    "Chris",
     "Gavin",
-    "Matt",
-    "Rich",
-    "Rod"
+    #"Matt",
+    #"Rich",
+    #"Rod"
 ]
 
 # Initialize some variables
