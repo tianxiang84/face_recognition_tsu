@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 import glob
 import sys
-
+import functools
 
 # 1. Prepare
 # 1.1 Prepare ML
@@ -66,7 +66,7 @@ for filename in glob.glob('test/*'):
     face_distances = []
     for face_encoding in face_encodings:
         face_distance = face_recognition.face_distance(known_face_encodings[0], face_encoding)
-        face_distances.append( reduce(lambda x, y: x+y, face_distance) / len(face_distance) )
+        face_distances.append( functools.reduce(lambda x, y: x+y, face_distance) / len(face_distance) )
     index = np.argmin(face_distances)
     #dist = face_distances[index]
 
@@ -125,4 +125,4 @@ for filename in glob.glob('test/*'):
     '''
 
 vid_out.release()
-cv2.destroyAllWindows()
+#cv2.destroyAllWindows()
