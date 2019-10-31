@@ -19,6 +19,7 @@ import functools
 
 
 # 1.1 Prepare ML
+## Prepare face encoding for Lucas
 lucas_face_encoding = []
 for filename in glob.glob('raw_imgs/*'):
    print(filename)
@@ -37,7 +38,6 @@ known_face_names = [
 
 # 1.2 Prepare video output
 vid_out = cv2.VideoWriter('aligned_vid.mp4', cv2.VideoWriter_fourcc(*'MP4V'), 30.0, (3264,2448))
-#sys.exit()
 
 
 # Initialize some variables
@@ -47,36 +47,69 @@ vid_out = cv2.VideoWriter('aligned_vid.mp4', cv2.VideoWriter_fourcc(*'MP4V'), 30
 #font = cv2.FONT_HERSHEY_DUPLEX
 
 
-for filename in glob.glob('test/*'):
-    print(filename)
+for filename in glob.glob('test/*.jpg'):
+    print('Processing {}'.format(filename))
 
-    # Grab a single frame of video
+    # Input the photo and get its height and width
     frame = cv2.imread(filename)
     h = frame.shape[0]
     w = frame.shape[1]
     
     # Convert the image from BGR color (which OpenCV uses) to RGB color (which face_recognition uses)
-    rgb_small_frame = frame[:, :, ::-1]
-
+    rgb_frame = frame[:, :, ::-1]
 
     # Find all the faces and face encodings in the current frame of video
-    face_locations = face_recognition.face_locations(rgb_small_frame)
-    face_encodings = face_recognition.face_encodings(rgb_small_frame, face_locations)
+    face_locations = face_recognition.face_locations(rgb_frame)
+    face_encodings = face_recognition.face_encodings(rgb_frame, face_locations)
 
     face_distances = []
     for face_encoding in face_encodings:
         face_distance = face_recognition.face_distance(known_face_encodings[0], face_encoding)
-        face_distances.append( functools.reduce(lambda x, y: x+y, face_distance) / len(face_distance) )
+        face_distances.append(functools.reduce(lambda x, y: x+y, face_distance) / len(face_distance))
     index = np.argmin(face_distances)
     #dist = face_distances[index]
 
-
+    # location 
     (top, right, bottom, left) = face_locations[index]
 
+
+    # Find all facial features in all the faces in the image
+    face_landmarks_list = face_recognition.face_landmarks(rgb_frame)
+    
+    # Display the results
+    for face_landmarks in face_landmarks_list:
+        # Print the location of each facial feature in this image
+        facial_features = [
+              'chin',
+              'left_eyebrow',
+              'right_eyebrow',
+              'nose_bridge',
+              'nose_tip',
+              'left_eye',
+              'right_eye',
+              'top_lip',
+              'bottom_lip'
+         ]
+
+        for facial_feature in facial_features:
+            #print(face_landmarks['left_eyebrow'])
+            #sys.exit()
+
+            if not face_landmarks['left_eyebrow'][0][0]>=left:
+                continue
+            if not face_landmarks['left_eyebrow'][0][0]<=right:
+                continue
+            if not face_landmarks['left_eyebrow'][0][1]>=top:
+                continue
+            if not face_landmarks['left_eyebrow'][0][1]<=bottom:
+                continue
+
+            for pts in face_landmarks[facial_feature]:
+                cv2.circle(frame, pts, 2, (0,255,0), 1)
+
+
     LEFT = int(5000 - (left+right)/2.0)
-    #RIGHT = 5000 - (left+right)/2.0 + w
     TOP = int(5000 - (top+bottom)/2.0)
-    #BOTTOM = 5000 - (top+bottom)/2.0 + h
 
     canvas = np.zeros([10000,10000,3])
     cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 2)
