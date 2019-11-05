@@ -56,6 +56,16 @@ for folder_name in folders_name:
     images_list = images_list + this_file_list
 
 
+
+# Create a mask for blurring
+mask = np.zeros([OUTPUT_VID_H, OUTPUT_VID_W])
+MASK_R = 80
+for i in range(mask.shape[0]):
+    for j in range(mask.shape[1]):
+        if np.sqrt((i-OUTPUT_VID_H/2.0)*(i-OUTPUT_VID_H/2.0)+(j-OUTPUT_VID_W/2.0)*(j-OUTPUT_VID_W/2.0))<MASK_R:
+            mask[i][j]=1.0
+
+
 # Loop over all file
 for filename in images_list:
     print('Processing {}'.format(filename))
@@ -185,36 +195,35 @@ for filename in images_list:
         ang = np.arctan2((ry-ly),(rx-lx))
         print(dist, ang*180/np.pi)
 
-    if dist < 150:
+    if dist < 60:
         print('Face not found...')
         continue
 
-    LEFT = int(5000 - mid_eye_x)
-    TOP = int(5000 - mid_eye_y)
-    canvas = np.zeros([10000,10000,3])
+    LEFT = int(2500 - mid_eye_x)
+    TOP = int(2500 - mid_eye_y)
+    canvas = np.zeros([5000,5000,3])
     canvas[:,:,1] = 255
     canvas[:,:,2] = 255
     canvas[TOP:TOP+h, LEFT:LEFT+w, :] = frame
     canvas = imutils.rotate_bound(canvas, -ang*180.0/np.pi)
 
     scale = 300/dist
-    new_h = int(10000*scale)
-    new_w = int(10000*scale)
-    #print(scale)
-    #print(new_h)
-    #print(new_w)
-    #print(h)
-    #print(w)
+    new_h = int(5000*scale)
+    new_w = int(5000*scale)
+    canvas = cv2.resize(canvas,(new_w, new_h))
 
     dx = int((new_w-1200)/2.0)
     dy = int((new_h-1200)/2.0)
-    canvas = cv2.resize(canvas,(new_w, new_h))
     canvas = canvas[dy:dy+1200, dx:dx+1200, :]
     canvas = cv2.resize(canvas, (OUTPUT_VID_W, OUTPUT_VID_H))
 
+    blurred = cv2.GaussianBlur(canvas,(9,9),cv2.BORDER_DEFAULT)
+    blurred[mask==1] = canvas[mask==1]
+    canvas = blurred
+
     fn = filename.split('.')[0]
     fn = fn.split('/')[2]
-    cv2.putText(canvas,text[0],(120,40),cv2.FONT_HERSHEY_SIMPLEX,0.7,(255,0,0),1,cv2.LINE_AA)
+    cv2.putText(canvas,text[0],(115,40),cv2.FONT_HERSHEY_SIMPLEX,0.7,(255,0,0),1,cv2.LINE_AA)
     cv2.putText(canvas,text[1],(180,45),cv2.FONT_HERSHEY_SIMPLEX,1.5,(255,0,0),3,cv2.LINE_AA)
     cv2.imwrite(os.path.join('processed_imgs',fn+'_detected.jpg'), canvas)
     #print(canvas.shape)
